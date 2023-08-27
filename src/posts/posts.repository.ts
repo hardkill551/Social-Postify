@@ -20,8 +20,8 @@ export class PostRepository{
         })
     }
 
-    getAllMedias(){
-        return this.prisma.media.findMany()
+    getAllPosts(){
+        return this.prisma.posts.findMany()
     }
 
     getMediabyId(id:number){

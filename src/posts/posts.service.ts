@@ -10,8 +10,9 @@ export class PostsService {
     return await this.postRepository.createPost(createPostDto)
   }
 
-  findAll() {
-    return `This action returns all posts`;
+  async findAll() {
+    const post = await this.postRepository.getAllPosts()
+    return post
   }
 
   findOne(id: number) {
