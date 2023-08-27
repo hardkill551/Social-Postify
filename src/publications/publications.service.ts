@@ -1,12 +1,19 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreatePublicationDto } from './dto/create-publication.dto';
 import { UpdatePublicationDto } from './dto/update-publication.dto';
 import { PublicationsRepository } from './publications.repository';
+import { PostsService } from 'src/posts/posts.service';
+import { MediasService } from 'src/medias/medias.service';
 
 @Injectable()
 export class PublicationsService {
-  constructor(private readonly publicationRepository:PublicationsRepository){}
+  constructor(private readonly publicationRepository:PublicationsRepository, private readonly postsService:PostsService, private readonly mediaService:MediasService){}
   async create(createPublicationDto: CreatePublicationDto) {
+    await Promise.all([
+      this.postsService.findOne(createPublicationDto.postId),
+      this.mediaService.findOne(createPublicationDto.mediaId)
+    ])
+    
     const publication = await this.publicationRepository.createPublication(createPublicationDto)
     return publication
   }
