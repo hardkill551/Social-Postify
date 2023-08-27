@@ -19,11 +19,11 @@ export class PostsService {
     if(isNaN(id)){
       throw new NotFoundException()
     }
-    const media = await this.postRepository.getPostbyId(id)
-    if(!media){
+    const post = await this.postRepository.getPostbyId(id)
+    if(!post){
       throw new NotFoundException()
     }
-    return media
+    return post
   }
 
   async update(id: number, updatePostDto: UpdatePostDto) {
