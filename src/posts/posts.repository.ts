@@ -39,8 +39,8 @@ export class PostRepository{
         })
     }
 
-    deleteMedia(id:number){
-        return this.prisma.media.delete({
+    deletePost(id:number){
+        return this.prisma.posts.delete({
             where:{
                 id
             }

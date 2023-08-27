@@ -27,14 +27,17 @@ export class PostsService {
   }
 
   async update(id: number, updatePostDto: UpdatePostDto) {
-    const originalMedia = await this.postRepository.getPostbyId(id)
-    if(!originalMedia){
+    const originalPost = await this.postRepository.getPostbyId(id)
+    if(!originalPost){
       throw new NotFoundException()
     }
     return await this.postRepository.updatePost(id, updatePostDto)
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} post`;
-  }
+  async remove(id: number) {
+    const originalPost = await this.postRepository.getPostbyId(id)
+    if(!originalPost){
+      throw new NotFoundException()
+    }
+    return await this.postRepository.deletePost(id)  }
 }
