@@ -23,12 +23,23 @@ export class PublicationsService {
     return publication
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} publication`;
+  async findOne(id: number) {
+    if(isNaN(id)){
+      throw new NotFoundException()
+    }
+    const publication = await this.publicationRepository.getPublicationsbyId(id)
+    if(!publication){
+      throw new NotFoundException()
+    }
+    return publication
   }
 
-  update(id: number, updatePublicationDto: UpdatePublicationDto) {
-    return `This action updates a #${id} publication`;
+  async update(id: number, updatePublicationDto: UpdatePublicationDto) {
+    const originalPublication = await this.publicationRepository.getPublicationsbyId(id)
+    if(!originalPublication){
+      throw new NotFoundException()
+    }
+    return await this.publicationRepository.updatePublications(id, updatePublicationDto)
   }
 
   remove(id: number) {
