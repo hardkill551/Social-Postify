@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreatePublicationDto } from './dto/create-publication.dto';
 import { UpdatePublicationDto } from './dto/update-publication.dto';
 import { PublicationsRepository } from './publications.repository';
@@ -36,6 +36,11 @@ export class PublicationsService {
 
   async update(id: number, updatePublicationDto: UpdatePublicationDto) {
     const originalPublication = await this.publicationRepository.getPublicationsbyId(id)
+    const currentDate = new Date()
+    const publicationDate = new Date(originalPublication.date)
+    if(publicationDate.getTime() < currentDate.getTime()){
+      throw new ForbiddenException()
+    }
     if(!originalPublication){
       throw new NotFoundException()
     }

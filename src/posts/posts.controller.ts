@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Put } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Put, ForbiddenException, NotFoundException } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
@@ -29,6 +29,11 @@ export class PostsController {
 
   @Delete(':id')
   async remove(@Param('id') id: string) {
-    return await this.postsService.remove(+id);
+    try{
+      return await this.postsService.remove(+id);
+    } catch (error) {
+      if(error.message === "Not Found") throw new NotFoundException()
+      throw new ForbiddenException()
+    }
   }
 }

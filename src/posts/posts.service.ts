@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { PostRepository } from './posts.repository';
@@ -39,5 +39,6 @@ export class PostsService {
     if(!originalPost){
       throw new NotFoundException()
     }
-    return await this.postRepository.deletePost(id)  }
+    return await this.postRepository.deletePost(id)
+  }
 }

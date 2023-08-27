@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Delete, Put } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Put, ForbiddenException, NotFoundException } from '@nestjs/common';
 import { MediasService } from './medias.service';
 import { CreateMediaDto } from './dto/create-media.dto';
 import { UpdateMediaDto } from './dto/update-media.dto';
@@ -29,6 +29,12 @@ export class MediasController {
 
   @Delete(':id')
   async remove(@Param('id') id: string) {
-    return await this.mediasService.remove(+id);
+    try {
+      return await this.mediasService.remove(+id);
+    } catch (error) {
+      if(error.message === "Not Found") throw new NotFoundException()
+      throw new ForbiddenException()
+    }
+    
   }
 }
