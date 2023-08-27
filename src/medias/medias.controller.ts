@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, NotFoundException } from '@nestjs/common';
 import { MediasService } from './medias.service';
 import { CreateMediaDto } from './dto/create-media.dto';
 import { UpdateMediaDto } from './dto/update-media.dto';
@@ -19,7 +19,7 @@ export class MediasController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.mediasService.findOne(+id);
+      return this.mediasService.findOne(+id);
   }
 
   @Patch(':id')

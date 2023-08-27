@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { ConflictException, HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateMediaDto } from './dto/create-media.dto';
 import { UpdateMediaDto } from './dto/update-media.dto';
 import { MediaRepository } from './media.repository';
@@ -11,19 +11,25 @@ export class MediasService {
   async create(createMediaDto: CreateMediaDto) {
     const media = await this.mediaRepository.getMedia(createMediaDto)
     if(media){
-      throw new HttpException("Conflito", HttpStatus.CONFLICT)
+      throw new ConflictException()
     }
     return await this.mediaRepository.postMedia(createMediaDto)
   }
 
   async findAll() {
     const media = await this.mediaRepository.getAllMedias()
-
     return media
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} media`;
+  async findOne(id: number) {
+    if(isNaN(id)){
+      throw new NotFoundException()
+    }
+    const media = await this.mediaRepository.getMediabyId(id)
+    if(!media){
+      throw new NotFoundException()
+    }
+    return media
   }
 
   update(id: number, updateMediaDto: UpdateMediaDto) {

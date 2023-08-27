@@ -25,4 +25,11 @@ export class MediaRepository{
     getAllMedias(){
         return this.prisma.media.findMany()
     }
+    getMediabyId(id:number){
+        return this.prisma.media.findUnique({
+            where:{
+                id
+            }
+        })
+    }
 }
