@@ -32,8 +32,17 @@ export class MediasService {
     return media
   }
 
-  update(id: number, updateMediaDto: UpdateMediaDto) {
-    return `This action updates a #${id} media`;
+  async update(id: number, updateMediaDto: UpdateMediaDto) {
+    const originalMedia = await this.mediaRepository.getMediabyId(id)
+    if(!originalMedia){
+      throw new NotFoundException()
+    }
+    const sameMedia = await this.mediaRepository.getMedia(updateMediaDto)
+    if(sameMedia){
+      throw new ConflictException()
+    }
+    
+    return await this.mediaRepository.updateMedia(id, updateMediaDto)
   }
 
   remove(id: number) {
