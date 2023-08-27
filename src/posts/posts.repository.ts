@@ -24,16 +24,16 @@ export class PostRepository{
         return this.prisma.posts.findMany()
     }
 
-    getMediabyId(id:number){
-        return this.prisma.media.findUnique({
+    getPostbyId(id:number){
+        return this.prisma.posts.findUnique({
             where:{
                 id
             }
         })
     }
     
-    updateMedia(id:number, data:UpdatePostDto){
-        return this.prisma.media.update({
+    updatePost(id:number, data:UpdatePostDto){
+        return this.prisma.posts.update({
             data,
             where:{id}
         })

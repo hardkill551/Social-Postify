@@ -1,4 +1,4 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { PostRepository } from './posts.repository';
@@ -15,15 +15,26 @@ export class PostsService {
     return post
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} post`;
+  async findOne(id: number) {
+    if(isNaN(id)){
+      throw new NotFoundException()
+    }
+    const media = await this.postRepository.getPostbyId(id)
+    if(!media){
+      throw new NotFoundException()
+    }
+    return media
   }
 
-  update(id: number, updatePostDto: UpdatePostDto) {
-    return `This action updates a #${id} post`;
+  async update(id: number, updatePostDto: UpdatePostDto) {
+    const originalPost = await this.postRepository.getPostbyId(id)
+    if(!originalPost){
+      throw new NotFoundException()
+    }
+    return await this.postRepository.updatePost(id, updatePostDto)
   }
 
   remove(id: number) {
-    return `This action removes a #${id} post`;
+
   }
 }
