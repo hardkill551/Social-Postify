@@ -7,9 +7,7 @@ import { MediaRepository } from './media.repository';
 export class MediasService {
 
   constructor(private readonly mediaRepository:MediaRepository){
-
   }
-
   async create(createMediaDto: CreateMediaDto) {
     const media = await this.mediaRepository.getMedia(createMediaDto)
     if(media){
@@ -18,8 +16,10 @@ export class MediasService {
     return await this.mediaRepository.postMedia(createMediaDto)
   }
 
-  findAll() {
-    return `This action returns all medias`;
+  async findAll() {
+    const media = await this.mediaRepository.getAllMedias()
+
+    return media
   }
 
   findOne(id: number) {

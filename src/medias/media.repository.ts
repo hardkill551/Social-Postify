@@ -21,4 +21,8 @@ export class MediaRepository{
             data
         })
     }
+
+    getAllMedias(){
+        return this.prisma.media.findMany()
+    }
 }
