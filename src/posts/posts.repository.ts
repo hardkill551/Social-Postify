@@ -1,24 +1,21 @@
 import { Injectable } from "@nestjs/common";
-import { CreateMediaDto } from "./dto/create-media.dto";
 import { PrismaService } from "src/prisma/prisma.service";
-import { UpdateMediaDto } from "./dto/update-media.dto";
+import { CreatePostDto } from "./dto/create-post.dto";
+import { UpdatePostDto } from "./dto/update-post.dto";
 
 @Injectable()
-export class MediaRepository{
+export class PostRepository{
 
     constructor(private readonly prisma:PrismaService){}
 
-    getMedia(media:CreateMediaDto | UpdateMediaDto){
-        return this.prisma.media.findFirst({
-            where:{
-                title:media.title,
-                username:media.username
-            }
+    getPost(post:CreatePostDto | UpdatePostDto){
+        return this.prisma.posts.findFirst({
+            where:post
         })
     }
 
-    postMedia(data:CreateMediaDto){
-        return this.prisma.media.create({
+    createPost(data:CreatePostDto){
+        return this.prisma.posts.create({
             data
         })
     }
@@ -35,7 +32,7 @@ export class MediaRepository{
         })
     }
     
-    updateMedia(id:number, data:UpdateMediaDto){
+    updateMedia(id:number, data:UpdatePostDto){
         return this.prisma.media.update({
             data,
             where:{id}

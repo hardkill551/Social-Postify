@@ -41,11 +41,14 @@ export class MediasService {
     if(sameMedia){
       throw new ConflictException()
     }
-    
     return await this.mediaRepository.updateMedia(id, updateMediaDto)
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} media`;
+  async remove(id: number) {
+    const originalMedia = await this.mediaRepository.getMediabyId(id)
+    if(!originalMedia){
+      throw new NotFoundException()
+    }
+    return await this.mediaRepository.deleteMedia(id)
   }
 }
