@@ -1,11 +1,21 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateMediaDto } from './dto/create-media.dto';
 import { UpdateMediaDto } from './dto/update-media.dto';
+import { MediaRepository } from './media.repository';
 
 @Injectable()
 export class MediasService {
-  create(createMediaDto: CreateMediaDto) {
-    return 'This action adds a new media';
+
+  constructor(private readonly mediaRepository:MediaRepository){
+
+  }
+
+  async create(createMediaDto: CreateMediaDto) {
+    const media = await this.mediaRepository.getMedia(createMediaDto)
+    if(media){
+      throw new HttpException("Conflito", HttpStatus.CONFLICT)
+    }
+    return await this.mediaRepository.postMedia(createMediaDto)
   }
 
   findAll() {
