@@ -27,6 +27,9 @@ export class PostsService {
   }
 
   async update(id: number, updatePostDto: UpdatePostDto) {
+    if(isNaN(id)){
+      throw new NotFoundException()
+    }
     const originalPost = await this.postRepository.getPostbyId(id)
     if(!originalPost){
       throw new NotFoundException()
@@ -35,6 +38,9 @@ export class PostsService {
   }
 
   async remove(id: number) {
+    if(isNaN(id)){
+      throw new NotFoundException()
+    }
     const originalPost = await this.postRepository.getPostbyId(id)
     if(!originalPost){
       throw new NotFoundException()

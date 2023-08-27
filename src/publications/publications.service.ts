@@ -47,7 +47,14 @@ export class PublicationsService {
     return await this.publicationRepository.updatePublications(id, updatePublicationDto)
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} publication`;
+  async remove(id: number) {
+    if(isNaN(id)){
+      throw new NotFoundException()
+    }
+    const originalPublication = await this.publicationRepository.getPublicationsbyId(id)
+    if(!originalPublication){
+      throw new NotFoundException()
+    }
+    return await this.publicationRepository.deletePublications(id)
   }
 }

@@ -33,6 +33,9 @@ export class MediasService {
   }
 
   async update(id: number, updateMediaDto: UpdateMediaDto) {
+    if(isNaN(id)){
+      throw new NotFoundException()
+    }
     const originalMedia = await this.mediaRepository.getMediabyId(id)
     if(!originalMedia){
       throw new NotFoundException()
@@ -45,6 +48,9 @@ export class MediasService {
   }
 
   async remove(id: number) {
+    if(isNaN(id)){
+      throw new NotFoundException()
+    }
     const originalMedia = await this.mediaRepository.getMediabyId(id)
     if(!originalMedia){
       throw new NotFoundException()
