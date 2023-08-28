@@ -1,7 +1,7 @@
 import { PrismaService } from "src/prisma/prisma.service";
 import { faker } from '@faker-js/faker';
 
-export async function createMedias(prisma:PrismaService, number:number) {
+export async function createMedias(prisma:PrismaService) {
     const data = {title:faker.animal.cetacean(), username:faker.person.firstName()}
     return await prisma.media.create({
         data
