@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { PostsController } from './posts.controller';
 import { PostRepository } from './posts.repository';
-import { PrismaModule } from '../../src/prisma/prisma.module';
+import { PrismaModule } from '../prisma/prisma.module';
 
 @Module({
   imports:[PrismaModule],
