@@ -3,6 +3,7 @@ import { PrismaService } from "../prisma/prisma.service";
 import { CreatePublicationDto } from "./dto/create-publication.dto";
 import { UpdatePublicationDto } from "./dto/update-publication.dto";
 import { ListAllEntities } from "./dto/list-all-dto";
+import { Prisma } from "@prisma/client";
 
 @Injectable()
 export class PublicationsRepository{
@@ -22,7 +23,7 @@ export class PublicationsRepository{
     }
 
     getAllPublications(query:ListAllEntities){
-        let where = {}
+        let where:Prisma.PublicationsWhereInput = {}
         const currentDate = new Date()
         if(query && typeof query.published === "string"){
             if(query.published === "true"){
@@ -34,11 +35,7 @@ export class PublicationsRepository{
         }
         if(query && typeof query.after === "string"){
             const afterDate = new Date(query.after);
-                where = { ...where,
-                        date: {
-                        gte: afterDate,
-                    },
-        };
+            where = { ...where, date: { ...(where.date as Prisma.DateTimeFilter<"Publications">|| {}), gte: afterDate } };
         }
         return this.prisma.publications.findMany({where})
     }
