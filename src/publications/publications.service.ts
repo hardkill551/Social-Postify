@@ -4,6 +4,7 @@ import { UpdatePublicationDto } from './dto/update-publication.dto';
 import { PublicationsRepository } from './publications.repository';
 import { PostsService } from '../posts/posts.service';
 import { MediasService } from '../medias/medias.service';
+import { ListAllEntities } from './dto/list-all-dto';
 
 @Injectable()
 export class PublicationsService {
@@ -18,8 +19,8 @@ export class PublicationsService {
     return publication
   }
 
-  async findAll() {
-    const publication = await this.publicationRepository.getAllPublications()
+  async findAll(query:ListAllEntities) {
+    const publication = await this.publicationRepository.getAllPublications(query)
     return publication
   }
 

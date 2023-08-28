@@ -1,7 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Put, ForbiddenException, NotFoundException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Put, ForbiddenException, NotFoundException, Query } from '@nestjs/common';
 import { PublicationsService } from './publications.service';
 import { CreatePublicationDto } from './dto/create-publication.dto';
 import { UpdatePublicationDto } from './dto/update-publication.dto';
+import { ListAllEntities } from './dto/list-all-dto';
+
+
 
 @Controller('publications')
 export class PublicationsController {
@@ -13,8 +16,8 @@ export class PublicationsController {
   }
 
   @Get()
-  async findAll() {
-    return await this.publicationsService.findAll();
+  async findAll(@Query() query: ListAllEntities) {
+    return await this.publicationsService.findAll(query);
   }
 
   @Get(':id')

@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
 import { CreatePublicationDto } from "./dto/create-publication.dto";
 import { UpdatePublicationDto } from "./dto/update-publication.dto";
+import { ListAllEntities } from "./dto/list-all-dto";
 
 @Injectable()
 export class PublicationsRepository{
@@ -20,8 +21,26 @@ export class PublicationsRepository{
         })
     }
 
-    getAllPublications(){
-        return this.prisma.publications.findMany()
+    getAllPublications(query:ListAllEntities){
+        let where = {}
+        const currentDate = new Date()
+        if(query && typeof query.published === "string"){
+            if(query.published === "true"){
+                where = {...where, date: {lte:currentDate}}
+            }
+            else if(query.published === "false"){
+                where = {...where, date: {gt:currentDate}}
+            }
+        }
+        if(query && typeof query.after === "string"){
+            const afterDate = new Date(query.after);
+                where = { ...where,
+                        date: {
+                        gte: afterDate,
+                    },
+        };
+        }
+        return this.prisma.publications.findMany({where})
     }
 
     getPublicationsbyId(id:number){

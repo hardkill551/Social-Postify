@@ -1,10 +1,6 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication, ValidationPipe } from '@nestjs/common';
+
 import * as request from 'supertest';
-import { AppModule } from './../src/app.module';
-import { PrismaModule } from '../src/prisma/prisma.module';
-import { PrismaService } from '../src/prisma/prisma.service';
-import { createMedias, deleteMediaItens } from './factories/medias.factories';
+import { createMedias } from './factories/medias.factories';
 import { createPosts } from './factories/posts.factories';
 import { createFuturePublication, deleteAll } from './factories/publications.factories';
 import { app, prisma } from './app.e2e-spec';
