@@ -5,20 +5,12 @@ import { AppModule } from './../src/app.module';
 import { PrismaModule } from '../src/prisma/prisma.module';
 import { PrismaService } from '../src/prisma/prisma.service';
 import { createMedias, deleteMediaItens } from './factories/medias.factories';
-
-let app: INestApplication;
-let prisma: PrismaService
+import { createPosts } from './factories/posts.factories';
+import { createFuturePublication, deleteAll } from './factories/publications.factories';
+import { app, prisma } from './app.e2e-spec';
 beforeEach(async () => {
-  const moduleFixture: TestingModule = await Test.createTestingModule({
-    imports: [AppModule, PrismaModule],
-  }).compile();
-  app = moduleFixture.createNestApplication();
-  app.useGlobalPipes(new ValidationPipe());
-  prisma = app.get(PrismaService)
-  await app.init();
-  await deleteMediaItens(prisma)
-});
-
+    await deleteAll(prisma)
+  });
 describe('MediasController (POST-e2e)', () => {
   it('/medias (POST), should return 201 and the media object', async () => {
     const media = {
@@ -60,7 +52,11 @@ describe('MediasController (GET-e2e)', () => {
         const allMedias = await request(app.getHttpServer())
         .get('/medias')
         expect(allMedias.status).toBe(200)
-        expect(allMedias.body).toEqual(expect.arrayContaining([expect.objectContaining({})]))
+        expect(allMedias.body).toEqual(expect.arrayContaining([expect.objectContaining({
+            id: expect.any(Number),
+            title: expect.any(String),
+            username: expect.any(String)
+        })]))
     });
     it('/medias (GET), should return 200 and the media object list empty', async () => {
         const allMedias = await request(app.getHttpServer())
@@ -123,10 +119,13 @@ describe('MediasController (DELETE-e2e)', () => {
         .delete(`/medias/1`)
         expect(media.status).toBe(404)
     });
-    //it('/medias (DELETE), should return 403', async () => {
-    //    const createdMedia = await createMedias(prisma)
-    //    const allMedias = await request(app.getHttpServer())
-    //    .delete(`/medias/${createdMedia.id}`)
-    //    expect(allMedias.status).toBe(403)
-    //});
+    it('/medias (DELETE), should return 403', async () => {
+        const createdMedia = await createMedias(prisma)
+        const createdPost = await createPosts(prisma, 1)
+        await createFuturePublication(prisma, createdMedia.id, createdPost.id)
+        const allMedias = await request(app.getHttpServer())
+        .delete(`/medias/${createdMedia.id}`)
+        expect(allMedias.status).toBe(403)
+    });
 });
+

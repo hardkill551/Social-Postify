@@ -1,26 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1693247515691" clover="3.2.0">
-  <project timestamp="1693247515692" name="All files">
-    <metrics statements="14" coveredstatements="14" conditionals="2" coveredconditionals="2" methods="4" coveredmethods="4" elements="20" coveredelements="20" complexity="0" loc="14" ncloc="14" packages="1" files="2" classes="2"/>
+<coverage generated="1693251734809" clover="3.2.0">
+  <project timestamp="1693251734809" name="All files">
+    <metrics statements="23" coveredstatements="23" conditionals="2" coveredconditionals="2" methods="7" coveredmethods="7" elements="32" coveredelements="32" complexity="0" loc="23" ncloc="23" packages="1" files="3" classes="3"/>
     <file name="medias.factories.ts" path="D:\Windows\Driven\projeto22-social-postify\test\factories\medias.factories.ts">
       <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
-      <line num="2" count="1" type="stmt"/>
-      <line num="4" count="1" type="stmt"/>
-      <line num="5" count="10" type="stmt"/>
-      <line num="6" count="10" type="stmt"/>
-      <line num="12" count="1" type="stmt"/>
-      <line num="13" count="12" type="stmt"/>
+      <line num="2" count="3" type="stmt"/>
+      <line num="4" count="3" type="stmt"/>
+      <line num="5" count="21" type="stmt"/>
+      <line num="6" count="21" type="stmt"/>
+      <line num="12" count="3" type="stmt"/>
+      <line num="13" count="25" type="stmt"/>
     </file>
     <file name="posts.factories.ts" path="D:\Windows\Driven\projeto22-social-postify\test\factories\posts.factories.ts">
       <metrics statements="8" coveredstatements="8" conditionals="2" coveredconditionals="2" methods="2" coveredmethods="2"/>
-      <line num="2" count="1" type="stmt"/>
-      <line num="4" count="1" type="stmt"/>
-      <line num="10" count="7" type="cond" truecount="2" falsecount="0"/>
-      <line num="11" count="5" type="stmt"/>
-      <line num="14" count="2" type="stmt"/>
-      <line num="16" count="7" type="stmt"/>
-      <line num="22" count="1" type="stmt"/>
-      <line num="23" count="10" type="stmt"/>
+      <line num="2" count="3" type="stmt"/>
+      <line num="4" count="3" type="stmt"/>
+      <line num="10" count="18" type="cond" truecount="2" falsecount="0"/>
+      <line num="11" count="12" type="stmt"/>
+      <line num="14" count="6" type="stmt"/>
+      <line num="16" count="18" type="stmt"/>
+      <line num="22" count="3" type="stmt"/>
+      <line num="23" count="23" type="stmt"/>
+    </file>
+    <file name="publications.factories.ts" path="D:\Windows\Driven\projeto22-social-postify\test\factories\publications.factories.ts">
+      <metrics statements="9" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>
+      <line num="2" count="3" type="stmt"/>
+      <line num="4" count="3" type="stmt"/>
+      <line num="5" count="9" type="stmt"/>
+      <line num="6" count="9" type="stmt"/>
+      <line num="11" count="3" type="stmt"/>
+      <line num="12" count="1" type="stmt"/>
+      <line num="13" count="1" type="stmt"/>
+      <line num="18" count="3" type="stmt"/>
+      <line num="19" count="36" type="stmt"/>
     </file>
   </project>
 </coverage>

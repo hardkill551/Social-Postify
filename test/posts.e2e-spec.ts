@@ -1,23 +1,12 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
-import { AppModule } from './../src/app.module';
-import { PrismaModule } from '../src/prisma/prisma.module';
-import { PrismaService } from '../src/prisma/prisma.service';
-import { createPosts, deletePostsItens } from './factories/posts.factories';
+import { createPosts } from './factories/posts.factories';
+import { createFuturePublication, deleteAll } from './factories/publications.factories';
+import { createMedias } from './factories/medias.factories';
+import { app, prisma } from './app.e2e-spec';
 
-let app: INestApplication;
-let prisma: PrismaService
 beforeEach(async () => {
-  const moduleFixture: TestingModule = await Test.createTestingModule({
-    imports: [AppModule, PrismaModule],
-  }).compile();
-  app = moduleFixture.createNestApplication();
-  app.useGlobalPipes(new ValidationPipe());
-  prisma = app.get(PrismaService)
-  await app.init();
-  await deletePostsItens(prisma)
-});
+    await deleteAll(prisma)
+  });
 
 describe('PostsController (POST-e2e)', () => {
   it('/posts (POST), should return 201 and the post object', async () => {
@@ -54,7 +43,11 @@ describe('PostsController (GET-e2e)', () => {
         const allPost = await request(app.getHttpServer())
         .get('/posts')
         expect(allPost.status).toBe(200)
-        expect(allPost.body).toEqual(expect.arrayContaining([expect.objectContaining({})]))
+        expect(allPost.body).toMatchObject(expect.arrayContaining([expect.objectContaining({
+            id: expect.any(Number),
+            title: expect.any(String),
+            text: expect.any(String)
+        })]))
     });
     it('/posts (GET), should return 200 and the post object list empty', async () => {
         const allPost = await request(app.getHttpServer())
@@ -109,10 +102,12 @@ describe('PostsController (GET-e2e)', () => {
         .delete(`/posts/1`)
         expect(allPost.status).toBe(404)
     });
-    //it('/posts (DELETE), should return 403', async () => {
-    //    const createdPost = await createPosts(prisma, 1)
-    //    const allPost = await request(app.getHttpServer())
-    //    .delete(`/posts/${createdPost.id}`)
-    //    expect(allPost.status).toBe(403)
-    //});
+    it('/posts (DELETE), should return 403', async () => {
+        const createdPost = await createPosts(prisma, 1)
+        const createdMedia = await createMedias(prisma)
+        await createFuturePublication(prisma, createdMedia.id, createdPost.id)
+        const allPost = await request(app.getHttpServer())
+        .delete(`/posts/${createdPost.id}`)
+        expect(allPost.status).toBe(403)
+    });
   });
